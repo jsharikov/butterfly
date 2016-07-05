@@ -1,0 +1,14 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.+'
+    testCompile 'org.springframework:spring-test:4.3.0.RELEASE'
+    testRuntime "org.slf4j:slf4j-api:1.7.10"
+    compile 'org.springframework:spring-context:4.3.0.RELEASE'
+    compile 'org.apache.activemq:activemq-broker:5.13.3'
+    compile 'org.springframework:spring-jms:4.3.0.RELEASE'
+}
