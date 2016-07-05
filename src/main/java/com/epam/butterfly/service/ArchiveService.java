@@ -12,4 +12,6 @@ public interface ArchiveService {
     void ping();
 
     void send(NamedEntity namedEntity);
+
+
 }

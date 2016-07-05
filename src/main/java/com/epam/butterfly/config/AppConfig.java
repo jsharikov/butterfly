@@ -9,6 +9,10 @@ import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.listener.adapter.MessageListenerAdapter;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
 
 /**
  * Application configuration.
@@ -16,22 +20,17 @@ import org.springframework.jms.listener.adapter.MessageListenerAdapter;
  * @author Artsiom_Buyevich
  */
 @Configuration
-@ComponentScan("com.epam.butterfly.service, com.epam.butterfly.handler")
+@ComponentScan("com.epam.butterfly")
 @EnableJms
 public class AppConfig {
 
-   /* @Bean(name = "archiveService")
-    public ArchiveService archiveService() {
-        return new ArchiveServiceImpl();
-    }*/
-
     @Bean(name = "connectionFactory")
-    public ActiveMQConnectionFactory connectionFactory() {
+    public ConnectionFactory connectionFactory() {
         return new ActiveMQConnectionFactory("tcp://localhost:61616");
     }
 
     @Bean(name = "queue")
-    public ActiveMQQueue queue() {
+    public Destination queue() {
         return new ActiveMQQueue("archive.queue");
     }
 

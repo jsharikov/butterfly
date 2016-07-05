@@ -4,10 +4,10 @@ import com.epam.butterfly.config.AppConfig;
 import com.epam.butterfly.domain.NamedEntity;
 import com.epam.butterfly.handler.ArchiveHandler;
 import com.epam.butterfly.service.ArchiveService;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -21,7 +21,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ArchiveServiceTest {
 
     @Autowired
+    @Qualifier("archiveServiceImpl")
     private ArchiveService archiveService;
+
     @Autowired
     private ArchiveHandler archiveHandler;
 
@@ -32,7 +34,7 @@ public class ArchiveServiceTest {
         namedEntity.setName(MSG);
         archiveService.send(namedEntity);
 
-        //NamedEntity namedEntity1 = archiveHandler.recieve();
+        archiveHandler.receive();
         //Assert.assertEquals(MSG, namedEntity.getName());
     }
 }

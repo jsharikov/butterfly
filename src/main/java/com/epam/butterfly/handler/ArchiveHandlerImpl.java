@@ -1,19 +1,16 @@
-package com.epam.butterfly.service;
+package com.epam.butterfly.handler;
 
 import com.epam.butterfly.domain.NamedEntity;
-import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 import javax.jms.*;
 
 /**
- * @author Artsiom_Buyevich
+ * @author Artsiom_Buyevich.
  */
-@Service
-public class ArchiveServiceImpl implements ArchiveService {
+@Component
+public class ArchiveHandlerImpl implements ArchiveHandler {
 
     @Autowired
     private ConnectionFactory connectionFactory;
@@ -22,24 +19,21 @@ public class ArchiveServiceImpl implements ArchiveService {
     private Destination destination;
 
     @Override
-    public void ping() {
-
-    }
-
-    @Override
-    public void send(NamedEntity namedEntity) {
+    public void receive() {
         Connection conn = null;
         Session session = null;
         try {
             conn = connectionFactory.createConnection();
+            conn.start();
             session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            MessageProducer messageProducer = session.createProducer(destination);
-            TextMessage textMessage = session.createTextMessage();
+            MessageConsumer consumer = session.createConsumer(destination);
+            Message message = consumer.receive();
+            TextMessage textMessage = (TextMessage) message;
 
-            textMessage.setText("ping");
-            messageProducer.send(textMessage);
+            System.out.println("GOT A MESSAGE: " + textMessage.getText());
+            conn.start();
         } catch (JMSException e) {
-            e.printStackTrace();
+            //
         } finally {
             try {
                 if (session != null) {
@@ -48,8 +42,8 @@ public class ArchiveServiceImpl implements ArchiveService {
                 if (conn != null) {
                     conn.close();
                 }
-            } catch (JMSException e) {
-                e.printStackTrace();
+            } catch (JMSException ex) {
+
             }
         }
     }
