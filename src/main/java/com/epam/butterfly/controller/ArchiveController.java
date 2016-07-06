@@ -18,13 +18,22 @@ import org.springframework.web.bind.annotation.*;
 public class ArchiveController {
 
     @Autowired
-    @Qualifier("archiveServiceImpl")
+    @Qualifier("archiveServiceJmsTemplateImpl")
     private ArchiveService archiveService;
 
-    @RequestMapping(value = "/", method = RequestMethod.POST)
+    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
+    public NamedEntity get(@PathVariable String name) {
+        NamedEntity namedEntity = new NamedEntity();
+        namedEntity.setName("pong");
+        return namedEntity;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
     public void addItem(@RequestBody NamedEntity namedEntity) {
-        if (namedEntity != null && !namedEntity.getName().trim().isEmpty()) {
-            archiveService.send(namedEntity);
+        System.out.println("!ping");
+        archiveService.send(namedEntity);
+        if (namedEntity != null && namedEntity.getName() != null && !namedEntity.getName().trim().isEmpty()) {
+
         }
     }
 }

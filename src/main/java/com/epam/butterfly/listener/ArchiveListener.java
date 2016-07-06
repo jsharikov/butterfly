@@ -1,9 +1,10 @@
-package com.epam.butterfly.handler;
+package com.epam.butterfly.listener;
 
-import org.springframework.stereotype.Component;
+import com.epam.butterfly.service.ArchiveService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.annotation.Resource;
-import javax.ejb.MessageDriven;
 import javax.ejb.MessageDrivenContext;
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -11,20 +12,13 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 /**
- *
- *
  * @author Artsiom_Buyevich
  */
-@MessageDriven(mappedName="archive.queue")
-public class ArchiveHandlerMDBImpl implements ArchiveHandler, MessageListener {
+public class ArchiveListener implements MessageListener {
 
-    @Resource
-    private MessageDrivenContext mdc;
-
-    @Override
-    public void receive() {
-
-    }
+    @Autowired
+    @Qualifier("archiveServiceJmsTemplateImpl")
+    private ArchiveService archiveService;
 
     @Override
     public void onMessage(Message inMessage) {
@@ -34,16 +28,16 @@ public class ArchiveHandlerMDBImpl implements ArchiveHandler, MessageListener {
                 msg = (TextMessage) inMessage;
                 System.out.println("MESSAGE BEAN: Message received: " +
                         msg.getText());
+                String archiveName = msg.getText();
+                archiveService.save(archiveName);
             } else {
                 System.out.println("Message of wrong type: " +
                         inMessage.getClass().getName());
             }
         } catch (JMSException e) {
             e.printStackTrace();
-            mdc.setRollbackOnly();
         } catch (Throwable te) {
             te.printStackTrace();
         }
     }
 }
-

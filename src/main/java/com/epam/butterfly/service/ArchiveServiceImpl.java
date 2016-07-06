@@ -36,7 +36,7 @@ public class ArchiveServiceImpl implements ArchiveService {
             MessageProducer messageProducer = session.createProducer(destination);
             TextMessage textMessage = session.createTextMessage();
 
-            textMessage.setText("ping");
+            textMessage.setText(namedEntity.getName());
             messageProducer.send(textMessage);
         } catch (JMSException e) {
             e.printStackTrace();
@@ -52,5 +52,15 @@ public class ArchiveServiceImpl implements ArchiveService {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void save(String archiveName) {
+
+    }
+
+    @Override
+    public boolean existArchive(String archiveName) {
+        return false;
     }
 }

@@ -21,20 +21,26 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ArchiveServiceTest {
 
     @Autowired
-    @Qualifier("archiveServiceImpl")
+    //@Qualifier("archiveServiceImpl")
+    @Qualifier("archiveServiceJmsTemplateImpl")
     private ArchiveService archiveService;
 
     @Autowired
     private ArchiveHandler archiveHandler;
 
     @Test
-    public void test() {
+    public void test() throws InterruptedException {
         final String MSG = "test archive";
         NamedEntity namedEntity = new NamedEntity();
         namedEntity.setName(MSG);
         archiveService.send(namedEntity);
-
-        archiveHandler.receive();
+        Thread.sleep(1000);
+        //archiveHandler.receive();
         //Assert.assertEquals(MSG, namedEntity.getName());
+    }
+
+    @Test
+    public void test2() {
+        archiveService.existArchive();
     }
 }
