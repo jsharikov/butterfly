@@ -8,6 +8,8 @@ import org.springframework.web.context.support.AnnotationConfigWebApplicationCon
 import org.springframework.web.servlet.DispatcherServlet;
 
 /**
+ * Initialite DispatcherServlet.
+ *
  * @author Artsiom_Buyevich
  */
 public class WebAppInitializer implements WebApplicationInitializer {

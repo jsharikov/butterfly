@@ -11,20 +11,15 @@ import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 
 /**
- *
+ * Consumer queue implementation with MDB.
  *
  * @author Artsiom_Buyevich
  */
 @MessageDriven(mappedName="archive.queue")
-public class ArchiveHandlerMDBImpl implements ArchiveHandler, MessageListener {
+public class ArchiveHandlerMDBImpl implements MessageListener {
 
     @Resource
     private MessageDrivenContext mdc;
-
-    @Override
-    public void receive() {
-
-    }
 
     @Override
     public void onMessage(Message inMessage) {
@@ -32,11 +27,9 @@ public class ArchiveHandlerMDBImpl implements ArchiveHandler, MessageListener {
         try {
             if (inMessage instanceof TextMessage) {
                 msg = (TextMessage) inMessage;
-                System.out.println("MESSAGE BEAN: Message received: " +
-                        msg.getText());
+                System.out.println("MESSAGE BEAN: Message received: " + msg.getText());
             } else {
-                System.out.println("Message of wrong type: " +
-                        inMessage.getClass().getName());
+                System.out.println("Message of wrong type: " + inMessage.getClass().getName());
             }
         } catch (JMSException e) {
             e.printStackTrace();

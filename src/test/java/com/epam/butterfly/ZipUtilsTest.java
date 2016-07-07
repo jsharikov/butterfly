@@ -6,7 +6,9 @@ import org.junit.Test;
 import java.io.IOException;
 
 /**
- * Created by Artsiom_Buyevich on 7/5/2016.
+ * ZipUtils test.
+ *
+ * @author Artsiom_Buyevich
  */
 public class ZipUtilsTest {
 

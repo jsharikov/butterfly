@@ -10,6 +10,8 @@ import javax.annotation.Resource;
 import javax.jms.*;
 
 /**
+ * Archive service implementation.
+ *
  * @author Artsiom_Buyevich
  */
 @Service
@@ -20,11 +22,6 @@ public class ArchiveServiceImpl implements ArchiveService {
 
     @Autowired
     private Destination destination;
-
-    @Override
-    public void ping() {
-
-    }
 
     @Override
     public void send(NamedEntity namedEntity) {
@@ -56,7 +53,6 @@ public class ArchiveServiceImpl implements ArchiveService {
 
     @Override
     public void save(String archiveName) {
-
     }
 
     @Override

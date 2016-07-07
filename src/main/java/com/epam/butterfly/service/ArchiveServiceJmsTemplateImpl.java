@@ -16,7 +16,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * Archive service impliments.
+ * Archive service implementation with JmsTemplate.
  *
  * @author Artsiom_Buyevich
  */
@@ -24,20 +24,16 @@ import java.io.IOException;
 @PropertySource("classpath:config.properties")
 public class ArchiveServiceJmsTemplateImpl implements ArchiveService {
 
-    @Value("${dir}")
-    private String directory;
+    @Value("${in.dir}")
+    private String srcDirectory;
+    @Value("${out.dir}")
+    private String destDirectory;
 
     @Autowired
     private JmsTemplate jmsTemplate;
 
     @Override
-    public void ping() {
-        System.out.println("ping");
-    }
-
-    @Override
     public void send(NamedEntity namedEntity) {
-        System.out.println(namedEntity);
         jmsTemplate.send("archive.queue", new MessageCreator() {
             @Override
             public Message createMessage(Session session) throws JMSException {
@@ -48,14 +44,14 @@ public class ArchiveServiceJmsTemplateImpl implements ArchiveService {
 
     @Override
     public void save(String archiveName) throws IOException {
-        if (directory != null || !directory.trim().isEmpty()) {
-            ZipUtils.unzip(directory + archiveName, "D://outbox");
+        if (srcDirectory != null || !srcDirectory.trim().isEmpty()) {
+            ZipUtils.unzip(srcDirectory + archiveName, destDirectory);
         }
     }
 
     @Override
     public boolean existArchive(String archiveName) {
-        String fullPath = directory + archiveName;
+        String fullPath = srcDirectory + archiveName;
         File file = new File(fullPath);
         return file.exists();
     }

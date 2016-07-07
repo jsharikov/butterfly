@@ -11,7 +11,9 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * Created by Artsiom_Buyevich on 7/5/2016.
+ * Utility zip pack.
+ *
+ * @author Artsiom_Buyevich
  */
 public class ZipUtils {
 

@@ -11,7 +11,7 @@ import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
 
 /**
- * Archive handler.
+ * Consumer queue implementation with JmsTemplate.
  *
  * @author Artsiom_Buyevich
  */
@@ -23,7 +23,6 @@ public class ArchiveHandlerSpringJms {
 
     @JmsListener(destination="archive.queue")
     public NamedEntity receive(String archiveName) {
-        System.out.println("Recieve: " + archiveName);
         NamedEntity namedEntity = new NamedEntity();
         namedEntity.setName(archiveName);
         return namedEntity;

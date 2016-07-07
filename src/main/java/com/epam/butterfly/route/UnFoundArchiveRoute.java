@@ -7,6 +7,8 @@ import org.apache.camel.builder.RouteBuilder;
 import org.springframework.stereotype.Component;
 
 /**
+ * Subscriber when archive not found.
+ *
  * @author Artsiom_Buyevich
  */
 @Component

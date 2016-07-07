@@ -7,10 +7,12 @@ import org.springframework.stereotype.Component;
 import javax.jms.*;
 
 /**
+ * Consumer queue implementation with core.
+ *
  * @author Artsiom_Buyevich.
  */
 @Component
-public class ArchiveHandlerImpl implements ArchiveHandler {
+public class ArchiveHandlerImpl  {
 
     @Autowired
     private ConnectionFactory connectionFactory;
@@ -18,7 +20,6 @@ public class ArchiveHandlerImpl implements ArchiveHandler {
     @Autowired
     private Destination destination;
 
-    @Override
     public void receive() {
         Connection conn = null;
         Session session = null;

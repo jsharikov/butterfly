@@ -10,9 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Artsiom_Buyevich on 7/6/2016.
+ * Camel configuration.
+ *
+ * @author Artsiom_Buyevich
  */
 @Configuration
 @ComponentScan("com.epam.butterfly.route")
-public class routeConfiguration extends CamelConfiguration {
+public class RouteConfiguration extends CamelConfiguration {
 }

@@ -11,6 +11,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 
 /**
+ * Configuration mvc for REST.
+ *
  * @author Artsiom_Buyevich
  */
 @Configuration

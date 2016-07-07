@@ -2,7 +2,6 @@ package com.epam.butterfly;
 
 import com.epam.butterfly.config.AppConfig;
 import com.epam.butterfly.domain.NamedEntity;
-import com.epam.butterfly.handler.ArchiveHandler;
 import com.epam.butterfly.service.ArchiveService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,22 +24,11 @@ public class ArchiveServiceTest {
     @Qualifier("archiveServiceJmsTemplateImpl")
     private ArchiveService archiveService;
 
-    @Autowired
-    private ArchiveHandler archiveHandler;
-
     @Test
     public void test() throws InterruptedException {
-        final String MSG = "test archive";
+        final String MSG = "test.zip";
         NamedEntity namedEntity = new NamedEntity();
         namedEntity.setName(MSG);
         archiveService.send(namedEntity);
-        Thread.sleep(1000);
-        //archiveHandler.receive();
-        //Assert.assertEquals(MSG, namedEntity.getName());
-    }
-
-    @Test
-    public void test2() {
-        archiveService.existArchive();
     }
 }
