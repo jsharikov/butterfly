@@ -21,8 +21,6 @@ public class NamedEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "NamedEntity{" +
-                "name='" + name + '\'' +
-                '}';
+        return "NamedEntity{" + "name='" + name + '\'' + '}';
     }
 }

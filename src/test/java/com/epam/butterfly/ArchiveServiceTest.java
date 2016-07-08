@@ -2,6 +2,7 @@ package com.epam.butterfly;
 
 import com.epam.butterfly.config.AppConfig;
 import com.epam.butterfly.domain.NamedEntity;
+import com.epam.butterfly.producer.ArchiveProducer;
 import com.epam.butterfly.service.ArchiveService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,15 +21,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class ArchiveServiceTest {
 
     @Autowired
-    //@Qualifier("archiveServiceImpl")
-    @Qualifier("archiveServiceJmsTemplateImpl")
-    private ArchiveService archiveService;
+    private ArchiveProducer archiveProducer;
 
     @Test
     public void test() throws InterruptedException {
         final String MSG = "test.zip";
         NamedEntity namedEntity = new NamedEntity();
         namedEntity.setName(MSG);
-        archiveService.send(namedEntity);
+        archiveProducer.send(namedEntity);
     }
 }

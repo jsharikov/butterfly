@@ -1,12 +1,10 @@
 package com.epam.butterfly;
 
 import com.epam.butterfly.config.AppConfig;
-import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.CamelContext;
-import org.apache.camel.ProducerTemplate;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.jms.JmsComponent;
+import org.apache.camel.dataformat.zipfile.ZipSplitter;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -24,7 +22,7 @@ import javax.jms.ConnectionFactory;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = AppConfig.class)
-@Ignore
+
 public class CamelTest {
 
     @Autowired
@@ -39,12 +37,15 @@ public class CamelTest {
         camelContext.addRoutes(new RouteBuilder() {
             @Override
             public void configure() throws Exception {
-                from("jms:queue:archive.queue").to("jms:queue:archive.output.queue");
+                from("file:D:\\inbox")
+                        .split(new ZipSplitter())
+                        .streaming()
+                        .to("file:D:\\outbox");
             }
         });
 
         camelContext.start();
-        Thread.sleep(100000);
+        Thread.sleep(10000);
         camelContext.stop();
     }
 

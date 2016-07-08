@@ -1,13 +1,10 @@
 package com.epam.butterfly.service;
 
-import com.epam.butterfly.domain.NamedEntity;
-import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.command.ActiveMQQueue;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.epam.butterfly.utils.ZipUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
-import javax.jms.*;
+import java.io.IOException;
 
 /**
  * Archive service implementation.
@@ -17,46 +14,16 @@ import javax.jms.*;
 @Service
 public class ArchiveServiceImpl implements ArchiveService {
 
-    @Autowired
-    private ConnectionFactory connectionFactory;
-
-    @Autowired
-    private Destination destination;
+    @Value("${in.dir}")
+    private String srcDirectory;
+    @Value("${out.dir}")
+    private String destDirectory;
 
     @Override
-    public void send(NamedEntity namedEntity) {
-        Connection conn = null;
-        Session session = null;
-        try {
-            conn = connectionFactory.createConnection();
-            session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            MessageProducer messageProducer = session.createProducer(destination);
-            TextMessage textMessage = session.createTextMessage();
-
-            textMessage.setText(namedEntity.getName());
-            messageProducer.send(textMessage);
-        } catch (JMSException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (session != null) {
-                    session.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (JMSException e) {
-                e.printStackTrace();
-            }
+    public void save(String archiveName) throws IOException {
+        if (srcDirectory != null || !srcDirectory.trim().isEmpty()) {
+            ZipUtils.unzip(srcDirectory + archiveName, destDirectory);
         }
     }
 
-    @Override
-    public void save(String archiveName) {
-    }
-
-    @Override
-    public boolean existArchive(String archiveName) {
-        return false;
-    }
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL">
+            <value>tcp://localhost:61616</value>
+        </property>
+    </bean>
+
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionFactory"/>
+    </bean>
+
+    <bean id="zipSplitter" class="org.apache.camel.dataformat.zipfile.ZipSplitter" />
+
+    <bean id="archiveService" class="com.epam.butterfly.service.ArchiveServiceImpl"/>
+
+    <camelContext  id="camelContext" trace="true" xmlns="http://camel.apache.org/schema/spring">
+        <template id="producerTemplate"/>
+        <route id="mainRoute">
+            <from uri="jms:queue:archive.queue"/>
+            <choice>
+                <when>
+                    <method bean="archiveHelper" method="isExist(${body})"/>
+                    <log message="Archive ${body} exist."/>
+                    <to uri="jms:queue:archive.output.queue"/>
+                    <log message="Archive ${body} send to queue."/>
+                </when>
+                <otherwise>
+                    <to uri="jms:topic:archive.not.found"/>
+                    <log message="Archive ${body} send to topic."/>
+                </otherwise>
+            </choice>
+        </route>
+
+        <route>
+            <from uri="jms:queue:archive.output.queue"/>
+            <to uri="bean:archiveService?method=save(${body})"/>
+        </route>
+    </camelContext>
+
+</beans>
