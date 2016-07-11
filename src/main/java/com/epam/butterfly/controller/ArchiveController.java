@@ -21,6 +21,11 @@ public class ArchiveController {
     @Autowired
     private ArchiveProducer archiveProducer;
 
+    /**
+     * Process create-operation.
+     *
+     * @param namedEntity name of archive
+     */
     @RequestMapping(method = RequestMethod.POST)
     public void addItem(@RequestBody NamedEntity namedEntity) {
         if (namedEntity != null && namedEntity.getName() != null && !namedEntity.getName().trim().isEmpty()) {

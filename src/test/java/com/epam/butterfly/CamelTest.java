@@ -22,7 +22,7 @@ import javax.jms.ConnectionFactory;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = AppConfig.class)
-
+@Ignore
 public class CamelTest {
 
     @Autowired

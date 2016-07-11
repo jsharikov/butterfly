@@ -12,7 +12,9 @@ import org.springframework.context.annotation.PropertySource;
  */
 @Configuration
 @ComponentScan("com.epam.butterfly")
-@ImportResource("classpath:spring/camel-context.xml")
+@ImportResource(value = {
+        "classpath:spring/camel-context.xml"
+})
 @PropertySource("classpath:config.properties")
 public class AppConfig {
 
