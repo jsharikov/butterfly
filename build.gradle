@@ -2,9 +2,15 @@ apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'com.bmuschko.tomcat'
 apply plugin: 'checkstyle'
+apply plugin: 'jetty'
 
 repositories {
     mavenCentral()
+}
+
+configurations.all {
+    exclude module: 'slf4j-log4j12'
+    exclude group: "commons-logging", module: "commons-logging"
 }
 
 dependencies {
@@ -16,13 +22,13 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-web', version: '4.3.0.RELEASE'
     compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.0.RELEASE'
     compile group: 'org.springframework.data', name: 'spring-data-mongodb', version: '1.8.4.RELEASE'
+
     compile group: 'org.mongodb', name: 'mongo-java-driver', version: '3.2.2'
 
+    compile group: 'org.slf4j', name: 'jcl-over-slf4j', version: '1.7.21'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
 
-    compile  group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
-    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.21'
-
-    compile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
+    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.3'
 
     compile 'org.apache.activemq:activemq-broker:5.13.3'
@@ -67,5 +73,6 @@ tasks.withType(Checkstyle) {
 checkstyle {
     configFile = new File(rootDir, "checkstyle.xml")
 }
+
 
 
